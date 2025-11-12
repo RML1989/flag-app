@@ -1,74 +1,261 @@
+/* ===========================
+   The Flag App – Globala stilar
+   Styleguide: Open Sans 300/600/800
+   Färger: #2B3844 (Mörkblå), #202C36 (Mörkare blå), #F2F2F2 (Vit)
+   Layoutbredder: 375px / 1440px
+   =========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600;800&display=swap');
+
+/* -------- Färgdefinitioner enligt styleguide -------- */
 :root {
-  --bg: #0b0b0c;
-  --card: #111214;
-  --text: #eaeaea;
-  --muted: #a7abb3;
-  --input: #1b1c20;
-  --border: #26272c;
-  --accent: #7c5cff;
+  /* Grundfärger */
+  --color-dark-blue: #2B3844;   /* kort och element i mörkt läge */
+  --color-darker-blue: #202C36; /* bakgrund i mörkt läge */
+  --color-white: #F2F2F2;       /* bakgrund i ljust läge + text i mörkt */
+
+  /* Semantiska färger (växlar med tema) */
+  --bg: var(--color-white);
+  --text: var(--color-darker-blue);
+  --element: #ffffff;           
+  --muted: rgba(32, 44, 54, .75);
+  --border: rgba(32, 44, 54, .12);
+
+  /* Storlekar & hörnradier */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  /* Skuggor */
+  --shadow-1: 0 1px 2px rgba(0,0,0,.04), 0 2px 8px rgba(0,0,0,.06);
+  --shadow-2: 0 2px 10px rgba(0,0,0,.12);
+
+  /* Övergångar */
+  --t-fast: .15s ease;
+  --t-med: .25s ease;
 }
 
-html[data-theme="light"] {
-  --bg: #f7f7f9;
-  --card: #ffffff;
-  --text: #1d1e22;
-  --muted: #556070;
-  --input: #f0f2f5;
-  --border: #e7e9ef;
-  --accent: #5b7cfa;
+/* Mörkt läge (enligt styleguide) */
+html[data-theme="dark"] {
+  --bg: var(--color-darker-blue);
+  --text: var(--color-white);
+  --element: var(--color-dark-blue);
+  --muted: rgba(242, 242, 242, .78);
+  --border: rgba(255,255,255,.08);
 }
 
+/* -------- Grundinställningar -------- */
 * { box-sizing: border-box; }
-body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial; background: var(--bg); color: var(--text); }
-a { color: inherit; text-decoration: none; }
-img { max-width: 100%; display: block; }
 
-.container { max-width: 1180px; margin: 0 auto; padding: 24px; }
+html {
+  color-scheme: light dark;
+  -webkit-text-size-adjust: 100%;
+}
 
+body {
+  margin: 0;
+  font-family: 'Open Sans', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: background-color var(--t-med), color var(--t-med);
+  line-height: 1.45;
+}
+
+/* Textstorlekar enligt styleguide */
+p, li, span, small { font-size: 14px; }      /* startsidan */
+.detail-text, .detail p, .detail li { font-size: 16px; } /* detaljsida */
+
+img, svg, video, canvas { display: block; max-width: 100%; }
+
+/* Fokusstil (för tillgänglighet) */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+/* Minska rörelse för användare med preferens */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* -------- Layout -------- */
+.container {
+  width: min(92%, 1200px);
+  margin: 0 auto;
+  padding: 24px 0 32px;
+}
+
+/* Övre navigationsfältet */
 .nav {
-  display:flex; align-items:center; justify-content:space-between; gap:16px;
-  padding: 18px 24px; border-bottom:1px solid var(--border); position:sticky; top:0; background:var(--bg); z-index:10;
+  position: sticky; top: 0; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 16px 4%;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: saturate(1.1) blur(2px);
 }
-.brand { font-weight: 800; letter-spacing: .5px; }
-.controls { display:flex; gap:12px; align-items:center; }
 
-.input {
-  background: var(--input); border:1px solid var(--border); color: var(--text);
-  padding: 10px 12px; border-radius: 10px; min-width: 260px;
+.brand {
+  font-weight: 800;
+  letter-spacing: .3px;
 }
-.select { background: var(--input); border:1px solid var(--border); color:var(--text); padding:10px 12px; border-radius:10px; }
 
+/* --- FIX: Ta bort lila färg + understrykning på loggan/länkar --- */
+.nav .brand,
+.nav .brand:visited,
+.nav .brand:hover,
+.nav .brand:active {
+  color: var(--text);
+  text-decoration: none;
+}
+
+/* Generellt: inga lila länkar eller understrykning */
+a, a:visited, a:hover, a:active {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Egen diskret fokusmarkering istället för understrykning */
+.nav .brand:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--border);
+  outline-offset: 3px;
+}
+
+/* Ta bort blå/lila klickhighlight på mobiler */
+a, .btn {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.controls { display: flex; gap: 12px; align-items: center; }
+
+/* Sök- och filterrad */
+.hero {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+/* Rutnät för landkort */
 .grid {
-  display:grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; margin-top: 18px;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
 }
+
+@media (min-width: 640px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 900px) {
+  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 1200px) {
+  .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* -------- Landkort -------- */
 .card {
-  background: var(--card); border:1px solid var(--border); border-radius: 14px; overflow:hidden; transition: transform .12s ease;
+  background: var(--element);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform var(--t-fast), box-shadow var(--t-fast), border-color var(--t-fast);
 }
-.card:hover { transform: translateY(-2px); }
+.card:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
+.card:active { transform: translateY(0); }
+
+.flag {
+  width: 100%;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  background: linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,0));
+}
+
 .card-body { padding: 14px 16px 16px; }
-.meta { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
-.flag { aspect-ratio: 16/10; object-fit: cover; width: 100%; }
+.card-body h2 {
+  margin: 2px 0 8px;
+  font-size: 18px;
+  font-weight: 800;
+}
+.meta { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
+
+/* -------- Formulär & knappar -------- */
+.input, .select {
+  appearance: none;
+  background: var(--element);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  min-width: 260px;
+  line-height: 1.2;
+  box-shadow: var(--shadow-1);
+}
+.input::placeholder { color: var(--muted); }
+
+.select { min-width: 200px; }
 
 .btn {
-  display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:10px;
-  border:1px solid var(--border); background: var(--input); color: var(--text); cursor:pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--element);
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: var(--shadow-1);
+  transition: transform var(--t-fast), box-shadow var(--t-fast);
+  text-decoration: none;
 }
-.btn:hover{ filter: brightness(1.02); }
-.badge { border:1px solid var(--border); background: var(--card); padding:6px 8px; border-radius:12px; font-size:12px; }
+.btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-2); }
+.btn:active { transform: translateY(0); }
 
-.row { display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
+/* Små "pills" för grannländer */
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--element);
+  color: var(--text);
+  font-size: 12px;
+  text-decoration: none;
+  box-shadow: var(--shadow-1);
+  transition: transform var(--t-fast);
+}
+.badge:hover { transform: translateY(-1px); }
 
-.hero { display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; }
+.row { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
 
+/* Avdelare */
+.hr { height: 1px; background: var(--border); margin: 18px 0; }
+
+/* Laddningssnurra */
 .loader {
   width: 44px; height: 44px; border-radius: 50%;
-  border: 3px solid var(--border); border-top-color: var(--accent);
-  animation: spin 1s linear infinite; margin: 40px auto;
+  border: 3px solid var(--border); border-top-color: var(--text);
+  margin: 36px auto; animation: spin 1s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-h1 { font-size: 28px; margin: 0; }
-h2 { margin: 8px 0 0; font-size: 20px; }
-.small { font-size: 13px; color: var(--muted); }
+/* Rubriker */
+h1 { margin: 0 0 6px; font-size: 28px; font-weight: 800; }
+h2 { margin: 0; font-size: 20px; }
+
 .section { margin-top: 24px; }
-.hr { height:1px; background:var(--border); margin: 18px 0; }
+
+/* Scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+*::-webkit-scrollbar { height: 10px; width: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
