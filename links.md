@@ -1,0 +1,2 @@
+- [Github repository](https://github.com/RML1989/flag-app)
+- [Deployat projekt](https://rml-flag-app.netlify.app/)
