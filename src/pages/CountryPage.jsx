@@ -23,8 +23,8 @@ export default function CountryPage() {
       <Link className="btn" to="..">← Tillbaka</Link>
       <div className="hr" />
       <div className="row">
-        <img src={flag} alt={country.flags?.alt || `Flag of ${country.name?.common}`} style={{ maxWidth: 420, borderRadius: 12 }} />
-        <div style={{ minWidth: 280 }}>
+        <img src={flag} alt={country.flags?.alt || `Flag of ${country.name?.common}`} /*style={{ maxWidth: 420, borderRadius: 12 }}*/  className="detail-flag" />
+        <div className="detail-panel"/*style={{ minWidth: 280 }}*/>
           <h1>{country.name?.common}</h1>
           <p className="small">Officiellt namn: {country.name?.official}</p>
           <p className="small">Huvudstad: {cap}</p>

@@ -166,14 +166,18 @@ a, .btn {
   overflow: hidden;
   text-decoration: none;
   color: inherit;
+  max-width: 100%;
   transition: transform var(--t-fast), box-shadow var(--t-fast), border-color var(--t-fast);
 }
+
 .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
 .card:active { transform: translateY(0); }
 
 .flag {
   width: 100%;
-  aspect-ratio: 16/10;
+  max-width: 100%;
+  height: auto;
+  display: block;
   object-fit: cover;
   background: linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,0));
 }
@@ -265,17 +269,32 @@ html, body {
   overflow-x: hidden;
 }
 
-/* Gör så flaggorna inte spränger layouten */
-.flag {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
+/* Stor flagga på detaljsidan */
+.detail-flag {
   display: block;
-  object-fit: cover;
+  width: 100%;
+  max-width: 420px;   /* motsvarar din gamla inline maxWidth */
+  border-radius: 12px;
 }
 
-/* Extra skydd: se till att kort inte sticker ut i små skärmar */
-.card {
-  max-width: 100%;
-  overflow: hidden;
+/* Se till att textkolumnen inte trycker ut layouten */
+.detail-panel {
+  min-width: 0;
+}
+
+/* På mobil: ge lite luft på sidorna så flaggan inte går kant i kant */
+@media (max-width: 600px) {
+  .detail-flag {
+    margin-inline: 12px;  /* prova 16px om du vill ha mer luft */
+  }
+}
+
+@media (max-width: 600px) {
+  .section {
+    padding-inline: 12px; /* eller 16px om du vill ha mer luft */
+  }
+
+  .detail-flag {
+    margin-inline: 0; /* låt section hantera marginalerna istället */
+  }
 }
