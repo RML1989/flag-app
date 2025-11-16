@@ -259,3 +259,23 @@ h2 { margin: 0; font-size: 20px; }
 *::-webkit-scrollbar { height: 10px; width: 10px; }
 *::-webkit-scrollbar-track { background: transparent; }
 *::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+/*Fixar horisontell scroll i mobil */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Gör så flaggorna inte spränger layouten */
+.flag {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* Extra skydd: se till att kort inte sticker ut i små skärmar */
+.card {
+  max-width: 100%;
+  overflow: hidden;
+}
